@@ -1,0 +1,26 @@
+id: remotion
+name: Remotion
+skill: remotion-best-practices + 4
+author: Remotion
+source: https://github.com/remotion-dev/skills
+license: Remotion License
+license_caveat: true
+tags:
+- video
+- motion
+where: desktop
+needs:
+- node
+- ffmpeg
+load: 2
+checked: 12.10.2026
+summary:
+  ru: 'Видео на React: превью, рендер, субтитры, переходы.'
+  en: 'Video in React: preview, render, captions, transitions.'
+prompt:
+  ru: Сделай в Remotion 30-секундный ролик-кейс проекта с титрами, экспорт в MP4.
+  en: Make a 30-second case video in Remotion with titles, exported to MP4.
+note:
+  ru: В репозитории нет файла лицензии. Remotion бесплатен для частных лиц и малых команд, крупным компаниям нужна платная лицензия.
+  en: No licence file in the repo. Remotion is free for individuals and small teams; larger companies need a paid licence.
+pairs: brag-slim

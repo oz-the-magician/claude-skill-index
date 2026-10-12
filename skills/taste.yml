@@ -1,0 +1,26 @@
+id: taste
+name: Taste Skill
+skill: design-taste-frontend
+author: Leonxlnx
+source: https://github.com/Leonxlnx/taste-skill
+license: MIT
+license_caveat: false
+tags:
+- style
+- web
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 11.10.2026
+summary:
+  ru: 'Вкус для фронтенда: типографика, сетка, отступы, движение. Три параметра настройки.'
+  en: 'Taste for frontend work: type, grid, spacing, motion. Three tuning dials.'
+prompt:
+  ru: 'Сделай лендинг Custom Blocks по taste-skill: плотность низкая, движение среднее.'
+  en: 'Build a Custom Blocks landing page with taste-skill: low density, medium motion.'
+note:
+  ru: Один SKILL.md, скриптов нет.
+  en: One SKILL.md, no scripts.
+pairs: Emil design eng, Frontend Design

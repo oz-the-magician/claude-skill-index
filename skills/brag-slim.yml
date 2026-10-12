@@ -1,0 +1,26 @@
+id: brag-slim
+name: brag-slim
+skill: brag-slim
+author: Shunit Haviv Hakimi
+source: https://github.com/latent-spaces/brag
+license: MIT
+license_caveat: false
+tags:
+- video
+- motion
+where: desktop
+needs:
+- node
+- ffmpeg
+load: 2
+checked: 12.10.2026
+summary:
+  ru: 20-секундный промо-ролик о проекте или сайте с музыкой и текстом.
+  en: A 20-second launch video of a project or site with music and copy.
+prompt:
+  ru: /brag-slim про Roadkick, вертикально, 15 секунд
+  en: /brag-slim about Roadkick, vertical, 15 seconds
+note:
+  ru: Сетевых вызовов в коде нет.
+  en: No network calls in the code.
+pairs: Remotion

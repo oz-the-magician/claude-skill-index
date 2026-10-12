@@ -1,0 +1,25 @@
+id: emil
+name: Emil Design Eng
+skill: emil-design-eng
+author: Emil Kowalski
+source: https://github.com/emilkowalski/skills
+license: MIT
+license_caveat: false
+tags:
+- motion
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 11.10.2026
+summary:
+  ru: Когда нужна анимация, какие кривые и длительности. Подход автора Sonner.
+  en: When motion earns its place, which curves and durations. From the author of Sonner.
+prompt:
+  ru: Проверь кнопки и модалки в Blaster Arena по принципам Эмиля, ответ таблицей.
+  en: Check the buttons and modals in Blaster Arena against Emil's principles, as a table.
+note:
+  ru: Только текст.
+  en: Text only.
+pairs: Emil Animate, transitions.dev

@@ -1,0 +1,25 @@
+id: pixel
+name: Pixel Art Sprites
+skill: pixel-art-sprites
+author: omer-metin
+source: https://github.com/omer-metin/skills-for-antigravity
+license: Apache-2.0
+license_caveat: false
+tags:
+- game2d
+- style
+where: web
+needs:
+- text
+load: 0
+checked: 12.10.2026
+summary:
+  ru: Силуэты, палитры, анимация от 4 до 8 кадров, тайлсеты.
+  en: Silhouettes, palettes, 4 to 8 frame animation, tilesets.
+prompt:
+  ru: 'Нарисуй канвасом спрайт-лист бега Плюши: 6 кадров, 16 цветов.'
+  en: 'Draw Plusha''s run cycle as a canvas sprite sheet: 6 frames, 16 colours.'
+note:
+  ru: 'Claude рисует кодом и не генерирует изображения. Для генерации: SpriteCook.'
+  en: 'Claude draws with code and does not generate images. For generation: SpriteCook.'
+pairs: SpriteCook
