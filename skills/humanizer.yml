@@ -1,0 +1,24 @@
+id: humanizer
+name: Humanizer
+skill: humanizer
+author: Siqi Chen
+source: https://github.com/blader/humanizer
+license: MIT
+license_caveat: false
+tags:
+- text
+where: web
+needs:
+- text
+load: 0
+checked: 11.10.2026
+summary:
+  ru: 'Удаляет из текста признаки ИИ: штампы, лишние тире, рекламные слова.'
+  en: 'Removes AI tells from prose: stock phrases, excess dashes, sales words.'
+prompt:
+  ru: Прогони текст кейса через humanizer, смысл не меняй.
+  en: Run this case study through humanizer without changing the meaning.
+note:
+  ru: Правила написаны для английского.
+  en: Rules target English.
+pairs: ''

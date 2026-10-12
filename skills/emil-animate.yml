@@ -1,0 +1,25 @@
+id: emil-animate
+name: Emil Animate
+skill: animate
+author: Emil Kowalski
+source: https://github.com/emilkowalski/skills
+license: MIT
+license_caveat: false
+tags:
+- motion
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 11.10.2026
+summary:
+  ru: 'Анимация по шагам: цель, инструмент, свойства, кривая, длительность.'
+  en: 'Animation step by step: purpose, tool, properties, curve, duration.'
+prompt:
+  ru: Сделай анимацию открытия инвентаря. Сначала назови цель и кривую.
+  en: Animate the inventory opening. State the purpose and curve first.
+note:
+  ru: Только текст.
+  en: Text only.
+pairs: Emil Design Eng

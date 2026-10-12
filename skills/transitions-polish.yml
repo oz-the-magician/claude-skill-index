@@ -1,0 +1,25 @@
+id: transitions-polish
+name: transitions-polish
+skill: transitions-polish
+author: Jakub Antalik
+source: https://github.com/jakubantalik/transitions.dev
+license: Transitions.dev License
+license_caveat: true
+tags:
+- motion
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 12.10.2026
+summary:
+  ru: 'Подгонка существующего движения под токены: асимметрия, задержки, стаггер.'
+  en: 'Tunes existing motion to the tokens: asymmetry, delays, stagger.'
+prompt:
+  ru: Отполируй все переходы в прототипе Guild по токенам.
+  en: Polish every transition in the Guild prototype to the tokens.
+note:
+  ru: Только текст и CSS. Распространение библиотеки запрещено.
+  en: Text and CSS only. Redistribution is not allowed.
+pairs: transitions.dev

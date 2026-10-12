@@ -1,0 +1,24 @@
+id: canvas
+name: Canvas Design
+skill: canvas-design
+author: Anthropic
+source: https://github.com/anthropics/skills
+license: Apache-2.0
+license_caveat: false
+tags:
+- style
+where: web
+needs:
+- text
+load: 0
+checked: 12.10.2026
+summary:
+  ru: Постеры, арт и обложки в PNG и PDF через код.
+  en: Posters, art and covers as PNG and PDF, made with code.
+prompt:
+  ru: Сделай типографский постер для выставки в canvas-design.
+  en: Make a typographic exhibition poster with canvas-design.
+note:
+  ru: Встроен.
+  en: Built in.
+pairs: ''

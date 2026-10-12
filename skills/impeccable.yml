@@ -1,0 +1,26 @@
+id: impeccable
+name: Impeccable
+skill: impeccable
+author: Paul Bakaus
+source: https://github.com/pbakaus/impeccable
+license: Apache-2.0
+license_caveat: false
+tags:
+- ui
+- web
+- style
+where: web
+needs:
+- text
+load: 1
+checked: 11.10.2026
+summary:
+  ru: 'Ревью и полировка интерфейса: critique, polish, audit.'
+  en: 'Interface review and polish: critique, polish, audit.'
+prompt:
+  ru: /impeccable critique для главной страницы портфолио
+  en: /impeccable critique for my portfolio home page
+note:
+  ru: Живой режим в браузере запускает скрипты и при первом запуске скачивает движок с GitHub автора. Инструкции работают без него.
+  en: Live browser mode runs scripts and downloads its engine from the author's GitHub on first use. The guidance works without it.
+pairs: Taste Skill

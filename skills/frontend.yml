@@ -1,0 +1,26 @@
+id: frontend
+name: Frontend Design
+skill: frontend-design
+author: Anthropic
+source: https://github.com/anthropics/skills
+license: Apache-2.0
+license_caveat: false
+tags:
+- style
+- web
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 12.10.2026
+summary:
+  ru: Палитра, шрифты и сетка под конкретную задачу вместо шаблона.
+  en: Palette, type and grid chosen for the brief instead of a template.
+prompt:
+  ru: Предложи три разных визуальных направления для страницы Guild.
+  en: Propose three distinct visual directions for the Guild page.
+note:
+  ru: Только текст.
+  en: Text only.
+pairs: Taste Skill

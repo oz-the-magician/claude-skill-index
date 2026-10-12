@@ -1,0 +1,24 @@
+id: pptx
+name: PPTX
+skill: pptx
+author: Anthropic
+source: https://github.com/anthropics/skills
+license: Anthropic
+license_caveat: true
+tags:
+- slides
+where: web
+needs:
+- text
+load: 0
+checked: 11.10.2026
+summary:
+  ru: Создание и правка файлов PowerPoint.
+  en: Creates and edits PowerPoint files.
+prompt:
+  ru: Собери презентацию в .pptx по моей структуре слайдов.
+  en: Build a .pptx deck from my slide outline.
+note:
+  ru: Встроен. Использование разрешено, распространение копий нет.
+  en: Built in. Use is permitted, redistribution is not.
+pairs: ''

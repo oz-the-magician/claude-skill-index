@@ -1,0 +1,26 @@
+id: transitions-dev
+name: transitions.dev
+skill: transitions-dev
+author: Jakub Antalik
+source: https://github.com/jakubantalik/transitions.dev
+license: Transitions.dev License
+license_caveat: true
+tags:
+- motion
+- ui
+- web
+where: web
+needs:
+- text
+load: 0
+checked: 12.10.2026
+summary:
+  ru: 35 готовых CSS-переходов и шкала моушн-токенов.
+  en: 35 ready CSS transitions and a motion-token scale.
+prompt:
+  ru: Добавь плавное открытие модалки и стопку тостов по токенам transitions.
+  en: Add a smooth modal open and stacked toasts using the transitions tokens.
+note:
+  ru: Перед загрузкой сократить description до 1024 символов. Облачные части не установлены. Распространение библиотеки запрещено.
+  en: Shorten the description to 1024 characters before upload. Cloud parts not installed. Redistribution is not allowed.
+pairs: transitions-polish
