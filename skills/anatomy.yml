@@ -1,0 +1,26 @@
+id: anatomy
+name: Anatomy
+skill: anatomy
+author: wheresryan22
+source: https://github.com/wheresryan22/anatomy
+license: MIT
+license_caveat: false
+tags:
+- ui
+- web
+- motion
+where: desktop
+needs:
+- node
+load: 2
+checked: 14.10.2026
+summary:
+  ru: Подробные интерактивные изометрические схемы, где идея показана как настоящий механизм, с живыми показаниями и плавной анимацией.
+  en: Detailed interactive isometric figures that explain an idea as a real machine, with a live readout and calm motion.
+prompt:
+  ru: /anatomy изометрическая схема того, как работает старая шариковая компьютерная мышь
+  en: /anatomy isometric diagram of how an old mechanical ball mouse works
+note:
+  ru: Для проверок нужен Chrome без окна. Публикует в галерею автора только по прямой просьбе.
+  en: Its checks need headless Chrome. Publishes to the author's gallery only when asked.
+pairs: ""
