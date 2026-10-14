@@ -1,0 +1,24 @@
+id: unity-pixel-perfect
+name: Unity 2D Pixel Perfect
+skill: unity:2d-pixel-perfect
+author: Unity Technologies
+source: https://github.com/Unity-Technologies/unity-agent-plugin
+license: Unity Companion License
+license_caveat: true
+tags:
+- game2d
+where: desktop
+needs:
+- text
+load: 0
+checked: 14.10.2026
+summary:
+  ru: 'Чёткий пиксель-арт в Unity: Pixel Perfect Camera, фильтр Point, отключение сглаживания, URP и Built-in.'
+  en: 'Crisp pixel art in Unity: Pixel Perfect Camera, Point filtering, no anti-aliasing, URP and Built-in.'
+prompt:
+  ru: Проверь сцену на размытые спрайты и настрой Pixel Perfect Camera под 320×180.
+  en: Check the scene for blurry sprites and set up the Pixel Perfect Camera for 320×180.
+note:
+  ru: 'Только для Unity-проектов: лицензия Unity Companion разрешает использование в проектах на Unity. Для браузерных игр на canvas не нужен.'
+  en: 'Unity projects only: the Unity Companion License covers use in Unity-based projects. Not needed for browser canvas games.'
+pairs: Pixel Art Sprites
