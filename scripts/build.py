@@ -102,17 +102,19 @@ def main():
     if "--check" in sys.argv:
         return
     data = "const S=" + json.dumps([to_page(c) for c in cards], ensure_ascii=False) + ";"
-    html = TEMPLATE.read_text(encoding="utf-8")
-    if "/*SKILLS*/" not in html:
-        sys.exit("template is missing the /*SKILLS*/ marker")
     OUT.mkdir(exist_ok=True)
-    (OUT / "index.html").write_text(
-        "<!doctype html>\n<html lang=\"ru\"><head><meta charset=\"utf-8\">"
-        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">"
-        "</head><body>\n" + html.replace("/*SKILLS*/", data) + "\n</body></html>\n",
-        encoding="utf-8")
+    for tpl in sorted((ROOT / "site").glob("*.template.html")):
+        html = tpl.read_text(encoding="utf-8")
+        if "/*SKILLS*/" not in html:
+            sys.exit(f"{tpl.name} is missing the /*SKILLS*/ marker")
+        name = tpl.name.replace(".template", "")
+        (OUT / name).write_text(
+            "<!doctype html>\n<html lang=\"ru\"><head><meta charset=\"utf-8\">"
+            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">"
+            "</head><body>\n" + html.replace("/*SKILLS*/", data) + "\n</body></html>\n",
+            encoding="utf-8")
+        print(f"built {OUT / name}")
     (OUT / ".nojekyll").write_text("")
-    print(f"built {OUT / 'index.html'}")
 
 
 if __name__ == "__main__":

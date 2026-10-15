@@ -193,7 +193,7 @@ h1{font-size:34px;line-height:40px;font-weight:400;letter-spacing:.25px;margin:0
 <header class="appbar">
   <div class="bar">
     <span class="title">Skill Index</span>
-    <div class="lang" role="group" aria-label="Language"><button class="tbtn rp" id="lang-ru" data-lang="ru">RU</button><button class="tbtn rp" id="lang-en" data-lang="en">EN</button></div>
+    <a class="tbtn rp" href="synapse.html" id="toMap" style="color:#fff;text-decoration:none;display:inline-flex;align-items:center" data-t="map"></a><div class="lang" role="group" aria-label="Language"><button class="tbtn rp" id="lang-ru" data-lang="ru">RU</button><button class="tbtn rp" id="lang-en" data-lang="en">EN</button></div>
   </div>
   <div class="tabs" role="tablist" id="tabs">
     <button class="tab rp" role="tab" id="t-skills" data-view="skills"></button>
@@ -230,7 +230,7 @@ h1{font-size:34px;line-height:40px;font-weight:400;letter-spacing:.25px;margin:0
 
 <script>
 const T={
- ru:{title:"Скиллы Claude",lede:"Установлены после проверки кода и лицензии. Каждая карточка ведёт к репозиторию автора.",search:"Поиск скиллов",
+ ru:{map:"Карта связей",title:"Скиллы Claude",lede:"Установлены после проверки кода и лицензии. Каждая карточка ведёт к репозиторию автора.",search:"Поиск скиллов",
   tSkills:"Скиллы",tInstall:"Установка",fTitle:"Фильтры",fTask:"Задача",fWhere:"Где работает",fNeeds:"Что нужно",fLoad:"Нагрузка",machine:"Машина",machineNote:"Нагрузка учитывается, только если скилл работает локально.",
   clear:"Сбросить",done:"Готово",count:(n,t)=>`${n} из ${t}`,empty:"Под эти фильтры ничего не подходит.",
   prompt:"Пример промпта",copy:"Копировать",copied:"Промпт скопирован",copyFail:"Не удалось скопировать. Выдели текст вручную.",src:"Репозиторий",more:"Подробнее",
@@ -243,7 +243,7 @@ const T={
   g3t:"Claude Code",g3s:"Плагины и локальный рендер",
   g3:["Поставь Claude Code и Node 20+.","Выполни команду из README автора.","Перезапусти claude и вызови скилл через /.","Тяжёлые задачи нагружают компьютер."],
   foot:"Описания в каталоге мои. Права на скиллы принадлежат их авторам на условиях указанных лицензий. Дата проверки относится к версии на этот день."},
- en:{title:"Claude skills",lede:"Installed after reviewing code and licence. Every card links to the author's repository.",search:"Search skills",
+ en:{map:"Synapse map",title:"Claude skills",lede:"Installed after reviewing code and licence. Every card links to the author's repository.",search:"Search skills",
   tSkills:"Skills",tInstall:"Install",fTitle:"Filters",fTask:"Task",fWhere:"Runs in",fNeeds:"Requires",fLoad:"Load",machine:"Machine",machineNote:"Load only applies when the skill runs locally.",
   clear:"Clear",done:"Done",count:(n,t)=>`${n} of ${t}`,empty:"Nothing matches these filters.",
   prompt:"Example prompt",copy:"Copy",copied:"Prompt copied",copyFail:"Couldn't copy. Select the text manually.",src:"Repository",more:"Details",
