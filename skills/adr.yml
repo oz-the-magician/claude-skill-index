@@ -1,0 +1,24 @@
+id: adr
+name: Architecture Decision Records
+skill: architecture-decision-records
+author: Affaan Mustafa (ECC)
+source: https://github.com/affaan-m/ECC
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: web
+needs:
+- text
+load: 0
+checked: 15.10.2026
+summary:
+  ru: 'Записывает технические решения в docs/adr: контекст, выбор, отвергнутые варианты, последствия. Потом отвечает на «почему мы выбрали X?».'
+  en: 'Records technical decisions in docs/adr: context, choice, rejected alternatives, consequences. Later answers "why did we choose X?".'
+prompt:
+  ru: 'Запиши решение: уровни Джона Картера храним в JSON, а не в коде и не в Tiled.'
+  en: 'Record the decision: John Carter levels live in JSON, not in code or Tiled.'
+note:
+  ru: 'Из сборника ECC (skills/architecture-decision-records), формат Майкла Найгарда. Один SKILL.md, скриптов нет. Файлы пишет только после твоего подтверждения; в чате ADR приходит текстом.'
+  en: 'From the ECC collection (skills/architecture-decision-records), Michael Nygard format. One SKILL.md, no scripts. Writes files only after you confirm; in chat the ADR arrives as text.'
+pairs: Blueprint, Council
