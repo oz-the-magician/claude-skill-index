@@ -117,7 +117,7 @@ a{color:inherit}
     <div class="keys">
       <svg viewBox="0 0 34 12" aria-hidden="true"><path d="M2 8 Q17 0 32 6" fill="none" stroke="#FF8A3D" stroke-width="2"/><circle cx="20" cy="4" r="2.5" fill="#FFF6E0"/></svg><span data-t="kPair"></span>
       <svg viewBox="0 0 34 12" aria-hidden="true"><line x1="2" y1="6" x2="32" y2="6" stroke="#9AA6C8" stroke-width="1" stroke-dasharray="3 3"/></svg><span data-t="kTag"></span>
-      <svg viewBox="0 0 34 12" aria-hidden="true"><circle cx="17" cy="6" r="5" fill="none" stroke="#FFC266" stroke-width="1.5"/></svg><span data-t="kDesk"></span>
+      <svg viewBox="0 0 34 12" aria-hidden="true"><defs><radialGradient id="dkg"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#FFC266"/><stop offset="1" stop-color="#FFB85A" stop-opacity="0"/></radialGradient></defs><circle cx="17" cy="6" r="6" fill="url(#dkg)"/></svg><span data-t="kDesk"></span>
     </div>
     <p class="hint" data-t="hint"></p>
   </div>
@@ -223,8 +223,7 @@ function drawNode(n,p,t,F,focus,dim,anyQ){
  const [x,y,zc,s]=p;const d=dim(n);const fg=fog(zc);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));
  if(n.hub){const c=TAGS[n.tag][2],r=34*sc;ctx.globalAlpha=(d?.25:1)*fg;
   const g=ctx.createRadialGradient(x,y,0,x,y,r*2.4);g.addColorStop(0,hexA(c,.32));g.addColorStop(.4,hexA(c,.12));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*2.4,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle=hexA(c,.55);ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r*.62,0,Math.PI*2);ctx.stroke();
-  if(!reduce){ctx.setLineDash([1,7]);ctx.strokeStyle=hexA(c,.6);ctx.beginPath();ctx.arc(x,y,r*.8,t*.25,t*.25+Math.PI*2);ctx.stroke();ctx.setLineDash([])}
+  const pul=reduce?1:1+Math.sin(t*.9+hash(n.id)*7)*.06,hb=ctx.createRadialGradient(x-r*.18,y-r*.2,0,x,y,r*.6*pul);hb.addColorStop(0,"rgba(255,255,255,.75)");hb.addColorStop(.35,hexA(c,.7));hb.addColorStop(1,hexA(c,0));ctx.fillStyle=hb;ctx.beginPath();ctx.arc(x,y,r*.6*pul,0,Math.PI*2);ctx.fill();
   ctx.globalCompositeOperation="source-over";ctx.font=`600 ${Math.round(10+2*Math.min(1.3,sc))}px 'Chakra Petch', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";ctx.fillStyle=c;ctx.fillText(TAGS[n.tag][li()].toUpperCase(),x,y+r*.9);ctx.globalCompositeOperation="lighter";ctx.globalAlpha=1;return}
  const c=TAGS[n.s.tags[0]][2],active=n===focus,r=n.r*sc;ctx.globalAlpha=(d?.15:1)*fg;const breath=reduce?1:1+Math.sin(t*1.6+hash(n.id)*9)*.08;
  const k=6+(n.s.tags.length*2);for(let i=0;i<k;i++){const a=hash(n.id+i)*Math.PI*2+(reduce?0:Math.sin(t*.4+i)*.05)+cam.yaw*.35*(hash(i+n.id)-.5),L=r*(1.8+hash(i+n.id)*2.6)*(active?1.3:1);
@@ -233,12 +232,12 @@ function drawNode(n,p,t,F,focus,dim,anyQ){
  const halo=ctx.createRadialGradient(x,y,0,x,y,r*4.2*breath);halo.addColorStop(0,hexA(c,active?.6:.38));halo.addColorStop(.35,hexA(c,.14));halo.addColorStop(1,hexA(c,0));ctx.fillStyle=halo;ctx.beginPath();ctx.arc(x,y,r*4.2*breath,0,Math.PI*2);ctx.fill();
  const ins=ctx.createRadialGradient(x,y,0,x,y,r*1.6);ins.addColorStop(0,hexA(c,.9));ins.addColorStop(.5,hexA(c,.35));ins.addColorStop(1,hexA(c,0));ctx.fillStyle=ins;ctx.beginPath();ctx.arc(x,y,r*1.6,0,Math.PI*2);ctx.fill();
  const ball=ctx.createRadialGradient(x-r*.28,y-r*.32,0,x,y,r*.95);ball.addColorStop(0,"rgba(255,255,255,1)");ball.addColorStop(.3,"rgba(255,252,240,.95)");ball.addColorStop(.7,hexA(c,.95));ball.addColorStop(1,hexA(c,.25));ctx.fillStyle=ball;ctx.beginPath();ctx.arc(x,y,r*.9,0,Math.PI*2);ctx.fill();
- // diffraction spikes
- const sl=r*(active?7:4.6)*breath,rot=reduce?0:t*.05+hash(n.id)*3;for(let i=0;i<4;i++){const a=rot+i*Math.PI/2,L=i%2?sl*.6:sl,ex=Math.cos(a)*L,ey=Math.sin(a)*L;const g=ctx.createLinearGradient(x-ex,y-ey,x+ex,y+ey);g.addColorStop(0,hexA(c,0));g.addColorStop(.5,"rgba(255,255,250,.85)");g.addColorStop(1,hexA(c,0));ctx.strokeStyle=g;ctx.lineWidth=Math.max(.8,r*.12);ctx.beginPath();ctx.moveTo(x-ex,y-ey);ctx.lineTo(x+ex,y+ey);ctx.stroke()}
+
  ctx.globalCompositeOperation="source-over";
- const orb=.32+.18*Math.abs(Math.sin(cam.pitch+hash(n.id)*2)),tilt=-.35+hash(n.id+"o")*.7+cam.yaw*.15;const tg=n.s.tags,seg=Math.PI*2/tg.length;tg.forEach((tt,i)=>{ctx.strokeStyle=hexA(TAGS[tt][2],.9);ctx.lineWidth=(active?2.4:1.6)*Math.min(1.3,sc);ctx.beginPath();ctx.ellipse(x,y,r*1.9,r*1.9*orb,tilt,-Math.PI/2+i*seg+.12,-Math.PI/2+(i+1)*seg-.12);ctx.stroke()});
- if(n.s.where==="desktop"){ctx.strokeStyle="rgba(255,194,102,.8)";ctx.lineWidth=1;ctx.setLineDash([2,3]);ctx.beginPath();ctx.ellipse(x,y,r*2.4,r*2.4*orb,tilt,0,Math.PI*2);ctx.stroke();ctx.setLineDash([])}
- if(active){ctx.strokeStyle="rgba(255,255,255,.85)";ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(x,y,r*2.9,r*2.9*orb,-tilt,0,Math.PI*2);ctx.stroke()}
+ const orb=.32+.18*Math.abs(Math.sin(cam.pitch+hash(n.id)*2)),tilt=-.35+hash(n.id+"o")*.7+cam.yaw*.15;const tg=n.s.tags;tg.forEach((tt,i)=>{const ang=(reduce?0:t*.5)+i*Math.PI*2/tg.length+hash(n.id)*6,ox=Math.cos(ang)*r*2.1,oy=Math.sin(ang)*r*2.1*orb,cs=Math.cos(tilt),sn=Math.sin(tilt),sx=x+ox*cs-oy*sn,sy=y+ox*sn+oy*cs,rr=Math.max(1.6,r*.22)*(active?1.3:1),cc=TAGS[tt][2];
+  ctx.globalCompositeOperation="lighter";const gg=ctx.createRadialGradient(sx,sy,0,sx,sy,rr*3.2);gg.addColorStop(0,"rgba(255,255,255,.95)");gg.addColorStop(.3,hexA(cc,.9));gg.addColorStop(1,hexA(cc,0));ctx.fillStyle=gg;ctx.beginPath();ctx.arc(sx,sy,rr*3.2,0,Math.PI*2);ctx.fill()});
+ if(n.s.where==="desktop"){ctx.globalCompositeOperation="lighter";const dg=ctx.createRadialGradient(x,y,r*.8,x,y,r*3);dg.addColorStop(0,"rgba(255,184,90,0)");dg.addColorStop(.45,"rgba(255,184,90,.28)");dg.addColorStop(1,"rgba(255,184,90,0)");ctx.fillStyle=dg;ctx.beginPath();ctx.arc(x,y,r*3,0,Math.PI*2);ctx.fill()}
+ if(active){ctx.globalCompositeOperation="lighter";const ag=ctx.createRadialGradient(x,y,0,x,y,r*5);ag.addColorStop(0,"rgba(255,255,255,.55)");ag.addColorStop(.3,hexA(c,.3));ag.addColorStop(1,hexA(c,0));ctx.fillStyle=ag;ctx.beginPath();ctx.arc(x,y,r*5,0,Math.PI*2);ctx.fill()}
  const showLabel=active||(F&&F.has(n.id))||(anyQ&&matches(n))||(!F&&fg>.5);
  if(showLabel){ctx.globalAlpha=(d?.3:1)*Math.max(.55,fg);const fs=Math.round(11+2*Math.min(1.2,sc));ctx.font=`${active?600:500} ${fs}px 'IBM Plex Sans', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";const label=n.s.name,w=ctx.measureText(label).width,ly=y+r*2.2+8;
   ctx.fillStyle="rgba(3,5,10,.66)";ctx.beginPath();ctx.roundRect?ctx.roundRect(x-w/2-7,ly-2,w+14,fs+7,10):ctx.rect(x-w/2-7,ly-2,w+14,fs+7);ctx.fill();ctx.fillStyle=active?"#fff":"#E2E8FA";ctx.fillText(label,x,ly+1)}
