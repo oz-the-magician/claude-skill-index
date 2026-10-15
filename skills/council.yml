@@ -1,0 +1,24 @@
+id: council
+name: Council
+skill: council
+author: Affaan Mustafa (ECC)
+source: https://github.com/affaan-m/ECC
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: web
+needs:
+- text
+load: 0
+checked: 15.10.2026
+summary:
+  ru: 'Совет из четырёх голосов для спорных решений: Архитектор, Скептик, Прагматик и Критик высказываются независимо, итог показывает согласие, главное возражение и рекомендацию.'
+  en: 'A four-voice council for contested decisions: Architect, Skeptic, Pragmatist and Critic answer independently; the verdict shows consensus, the strongest dissent and a recommendation.'
+prompt:
+  ru: 'Собери council: для Porsche 911 сначала идеальная сцена в Blender или грубый прототип в браузере?'
+  en: 'Convene the council: for the Porsche 911 site, a polished Blender scene first or a rough browser prototype?'
+note:
+  ru: 'Из сборника ECC (skills/council). Один SKILL.md, скриптов нет. В Claude Code голоса — отдельные субагенты; в чате Claude играет их по очереди, независимость чуть слабее.'
+  en: 'From the ECC collection (skills/council). One SKILL.md, no scripts. In Claude Code the voices are separate subagents; in chat Claude plays them in turn, so independence is a bit weaker.'
+pairs: Architecture Decision Records, Blueprint
