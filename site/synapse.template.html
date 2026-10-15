@@ -186,7 +186,7 @@ const GI=Math.min(1,Math.sqrt(30/Math.max(1,S.length)));/* glow intensity drops 
 const LOD=S.length>60;
 const cam={yaw:.6,pitch:-.28,dist:1000,tx:0,ty:0,tz:0,gx:0,gy:0,gz:0,gd:1000};
 let lastUser=0;
-function hubSphere(){const n=usedTags.length,ga=Math.PI*(3-Math.sqrt(5));usedTags.forEach((t,i)=>{const y=1-(i+.5)/n*2,r=Math.sqrt(1-y*y),a=i*ga;const h=byId["tag:"+t];h.x=Math.cos(a)*r*SPH;h.y=y*SPH*.8;h.z=Math.sin(a)*r*SPH})}
+function hubSphere(){const n=usedTags.length,ga=Math.PI*(3-Math.sqrt(5));usedTags.forEach((t,i)=>{const y=1-(i+.5)/n*2,r=Math.sqrt(1-y*y),a=i*ga;const h=byId["tag:"+t];h.x=Math.cos(a)*r*SPH*1.25;h.y=y*SPH;h.z=Math.sin(a)*r*SPH*1.25})}
 hubSphere();
 nodes.forEach(n=>{if(!n.hub){const h=byId["tag:"+n.s.tags[0]],u=hash(n.id+"u")*2-1,a=hash(n.id+"a")*Math.PI*2,r=CL*Math.cbrt(hash(n.id+"r")+.05);n.x=h.x+Math.cos(a)*Math.sqrt(1-u*u)*r;n.y=h.y+u*r;n.z=h.z+Math.sin(a)*Math.sqrt(1-u*u)*r;n.vz=0}});
 function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+"px";cv.style.height=H+"px";FOC=Math.min(W,H)*.95;kick()}
@@ -283,7 +283,13 @@ function drawCore(p,t){const [x,y,zc,s]=p,sc=Math.max(.6,Math.min(2.4,s*Math.sqr
  usedTags.forEach((tg,i)=>{const h=byId["tag:"+tg];if(!visible(h))return;const [hx,hy]=P.get(h),c=TAGS[tg][2];
   const g=ctx.createLinearGradient(x,y,hx,hy);g.addColorStop(0,"rgba(255,236,205,.22)");g.addColorStop(1,hexA(c,.05));ctx.strokeStyle=g;ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(hx,hy);ctx.stroke();
   if(!reduce){const ph=(t*.18+i/usedTags.length)%1;if(ph<.6){const q=ph/.6,px=x+(hx-x)*q,py=y+(hy-y)*q;glowOrb(px,py,10*sc,c,(1-q)*.9)}}});
- const pul=reduce?1:1+Math.sin(t*1.1)*.07;glowOrb(x,y,260*sc*pul*(hov?1.15:1),"#FFB870",.7);glowOrb(x,y,120*sc*pul,"#FFE2B8",1);glowOrb(x,y,50*sc,"#FFFFFF",1)}
+ // the sun: soft body + layered corona; never smaller than a minimum so it stays the main object
+ const pul=reduce?1:1+Math.sin(t*1.1)*.04,Rb=Math.max(42,Math.min(170,SPH*.11*s))*pul*(hov?1.08:1);
+ const hz=ctx.createRadialGradient(x,y,0,x,y,Rb*9);hz.addColorStop(0,"rgba(255,170,90,.16)");hz.addColorStop(.25,"rgba(255,140,70,.06)");hz.addColorStop(.6,"rgba(255,120,60,.015)");hz.addColorStop(1,"rgba(255,120,60,0)");ctx.fillStyle=hz;ctx.beginPath();ctx.arc(x,y,Rb*9,0,Math.PI*2);ctx.fill();
+ glowOrb(x,y,Rb*7,"#FF9A4A",.75);glowOrb(x,y,Rb*4,"#FFC070",.9);
+ const bd=ctx.createRadialGradient(x,y,0,x,y,Rb*1.25);bd.addColorStop(0,"rgba(255,255,250,1)");bd.addColorStop(.45,"rgba(255,244,215,.95)");bd.addColorStop(.75,"rgba(255,205,140,.55)");bd.addColorStop(.9,"rgba(255,170,90,.18)");bd.addColorStop(1,"rgba(255,150,80,0)");ctx.fillStyle=bd;ctx.beginPath();ctx.arc(x,y,Rb*1.25,0,Math.PI*2);ctx.fill();
+ if(!reduce)for(let i=0;i<5;i++){const a=t*(.07+i*.023)+i*1.9,rr=Rb*(.25+.35*((Math.sin(t*.13+i*2.3)+1)/2)),px=x+Math.cos(a)*rr,py=y+Math.sin(a*1.3)*rr*.8;glowOrb(px,py,Rb*(.9+.3*Math.sin(t*.5+i)),i%2?"#FFE6B0":"#FFB566",.35)}
+ CORE.sr=Rb}
 let P=new Map();
 function draw(now){
  tick();const t=(now-t0)/1000,dt=Math.min(.05,(now-lastT)/1000);lastT=now;
@@ -308,7 +314,7 @@ function draw(now){
 }
 
 /* interaction: drag orbits, wheel/pinch zooms */
-function pick(sx,sy){let best=null,bz=1e9;if(P.has(CORE)){const [x,y,zc,s]=P.get(CORE);if(Math.hypot(x-sx,y-sy)<26*Math.max(.6,Math.min(2.4,s*Math.sqrt(SP)))+8){best=CORE;bz=zc}}nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));const R=(n.hub?26:n.r*1.5)*sc+6;if(best===CORE&&zc>bz-40)return;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
+function pick(sx,sy){let best=null,bz=1e9;if(P.has(CORE)){const [x,y,zc,s]=P.get(CORE);if(Math.hypot(x-sx,y-sy)<(CORE.sr||40)*1.1+6){best=CORE;bz=zc}}nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));const R=(n.hub?26:n.r*1.5)*sc+6;if(best===CORE&&zc>bz-40)return;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
 let drag=null,moved=false,pinch=null;const ptrs=new Map();
 const zoomTo=d=>{cam.gd=Math.max(380,Math.min(2400*SP,d))};
 cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=false;lastUser=performance.now();
