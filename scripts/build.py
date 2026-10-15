@@ -17,7 +17,7 @@ SKILLS = ROOT / "skills"
 TEMPLATE = ROOT / "site" / "index.template.html"
 OUT = ROOT / "_site"
 
-TAGS = {"motion", "ui", "web", "style", "game2d", "video", "slides", "text"}
+TAGS = {"motion", "ui", "web", "style", "game2d", "video", "slides", "text", "engineering"}
 WHERE = {"web", "desktop"}
 NEEDS = {"text", "node", "ffmpeg"}
 REQUIRED = ["id", "name", "skill", "author", "source", "license", "tags", "where",
