@@ -219,24 +219,33 @@ function drawLink(l,P,t,F,focus,dim,anyQ){
  if(!reduce&&!faded){const n=lit?3:1;for(let s=0;s<n;s++){const base=(t*.28+l.ph+s/n)%1,dir=(s%2)?-1:1;for(let k=0;k<9;k++){const p=dir>0?base-k*.012:1-base+k*.012;if(p<0||p>1)continue;const [px,py]=qpt(x1,y1,cx,cy,x2,y2,p);const a=(1-k/9)*fg;const R=(k?3:9)*sk;
    const g=ctx.createRadialGradient(px,py,0,px,py,R);g.addColorStop(0,`rgba(255,250,235,${a*(k?.6:1)})`);g.addColorStop(1,"rgba(255,170,90,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,R,0,Math.PI*2);ctx.fill()}}}
 }
-/* soft glowing orb: white-hot core fading through the colour to nothing, no hard edge */
-function glowOrb(x,y,R,c,k){const g=ctx.createRadialGradient(x,y,0,x,y,R);g.addColorStop(0,`rgba(255,255,255,${.95*k})`);g.addColorStop(.06,`rgba(255,253,245,${.85*k})`);g.addColorStop(.14,hexA(c,.75*k));g.addColorStop(.28,hexA(c,.38*k));g.addColorStop(.5,hexA(c,.14*k));g.addColorStop(.75,hexA(c,.04*k));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,R,0,Math.PI*2);ctx.fill()}
+/* soft glowing orb, pre-rendered per colour: layered falloff (white core, tight bloom, wide haze), no edge */
+const ORB={};
+function orbSprite(c){if(ORB[c])return ORB[c];const N=256,cv2=document.createElement("canvas");cv2.width=cv2.height=N;const g=cv2.getContext("2d"),img=g.createImageData(N,N),D=img.data;
+ const n=parseInt(c.slice(1),16),cr=n>>16&255,cg=n>>8&255,cb=n&255;
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++){const d=Math.hypot(x-N/2+.5,y-N/2+.5)/(N/2);if(d>=1)continue;
+  const win=Math.pow(1-d*d,2);// fades every layer to exactly zero at the rim
+  const core=Math.exp(-Math.pow(d/.06,2));
+  const bloom=.8*Math.exp(-d/.09)+.38*Math.exp(-d/.22)+.14*Math.exp(-d/.5);
+  const I=Math.min(1,(core+bloom)*win),w=core/(core+bloom+1e-6);// whiteness only in the core
+  const i=(y*N+x)*4;D[i]=cr+(255-cr)*w;D[i+1]=cg+(255-cg)*w;D[i+2]=cb+(255-cb)*w;D[i+3]=I*255}
+ g.putImageData(img,0,0);return ORB[c]=cv2}
+function glowOrb(x,y,R,c,k){const ga=ctx.globalAlpha;ctx.globalCompositeOperation="lighter";ctx.globalAlpha=ga*Math.min(1,k);ctx.drawImage(orbSprite(c),x-R,y-R,R*2,R*2);ctx.globalAlpha=ga}
 function drawNode(n,p,t,F,focus,dim,anyQ){
  const [x,y,zc,s]=p;const d=dim(n);const fg=fog(zc);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));
  if(n.hub){const c=TAGS[n.tag][2],r=34*sc;ctx.globalAlpha=(d?.25:1)*fg;
-  const g=ctx.createRadialGradient(x,y,0,x,y,r*2.4);g.addColorStop(0,hexA(c,.32));g.addColorStop(.4,hexA(c,.12));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*2.4,0,Math.PI*2);ctx.fill();
-  const pul=reduce?1:1+Math.sin(t*.9+hash(n.id)*7)*.06;glowOrb(x,y,r*1.5*pul,c,.9);
+  const pul=reduce?1:1+Math.sin(t*.9+hash(n.id)*7)*.06;glowOrb(x,y,r*3.4*pul,c,.95);
   ctx.globalCompositeOperation="source-over";ctx.font=`600 ${Math.round(10+2*Math.min(1.3,sc))}px 'Chakra Petch', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";ctx.fillStyle=c;ctx.fillText(TAGS[n.tag][li()].toUpperCase(),x,y+r*.9);ctx.globalCompositeOperation="lighter";ctx.globalAlpha=1;return}
  const c=TAGS[n.s.tags[0]][2],active=n===focus,r=n.r*sc;ctx.globalAlpha=(d?.15:1)*fg;const breath=reduce?1:1+Math.sin(t*1.6+hash(n.id)*9)*.08;
  const k=6+(n.s.tags.length*2);for(let i=0;i<k;i++){const a=hash(n.id+i)*Math.PI*2+(reduce?0:Math.sin(t*.4+i)*.05)+cam.yaw*.35*(hash(i+n.id)-.5),L=r*(1.8+hash(i+n.id)*2.6)*(active?1.3:1);
   const ex=x+Math.cos(a)*L,ey=y+Math.sin(a)*L,mx=x+Math.cos(a+.35)*L*.55,my=y+Math.sin(a+.35)*L*.55;const g=ctx.createLinearGradient(x,y,ex,ey);g.addColorStop(0,hexA(c,.55));g.addColorStop(1,hexA(c,0));
   ctx.strokeStyle=g;ctx.lineWidth=1.1*Math.min(1.4,sc);ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(mx,my,ex,ey);ctx.stroke()}
- glowOrb(x,y,r*4.2*breath,c,active?1:.85);
+ glowOrb(x,y,r*5*breath*(active?1.25:1),c,1);
 
  ctx.globalCompositeOperation="source-over";
  const orb=.32+.18*Math.abs(Math.sin(cam.pitch+hash(n.id)*2)),tilt=-.35+hash(n.id+"o")*.7+cam.yaw*.15;const tg=n.s.tags;tg.forEach((tt,i)=>{const ang=(reduce?0:t*.5)+i*Math.PI*2/tg.length+hash(n.id)*6,ox=Math.cos(ang)*r*2.1,oy=Math.sin(ang)*r*2.1*orb,cs=Math.cos(tilt),sn=Math.sin(tilt),sx=x+ox*cs-oy*sn,sy=y+ox*sn+oy*cs,rr=Math.max(1.6,r*.22)*(active?1.3:1),cc=TAGS[tt][2];
   ctx.globalCompositeOperation="lighter";const gg=ctx.createRadialGradient(sx,sy,0,sx,sy,rr*3.2);gg.addColorStop(0,"rgba(255,255,255,.95)");gg.addColorStop(.3,hexA(cc,.9));gg.addColorStop(1,hexA(cc,0));ctx.fillStyle=gg;ctx.beginPath();ctx.arc(sx,sy,rr*3.2,0,Math.PI*2);ctx.fill()});
- if(n.s.where==="desktop"){ctx.globalCompositeOperation="lighter";const dg=ctx.createRadialGradient(x,y,r*.8,x,y,r*3);dg.addColorStop(0,"rgba(255,184,90,0)");dg.addColorStop(.45,"rgba(255,184,90,.28)");dg.addColorStop(1,"rgba(255,184,90,0)");ctx.fillStyle=dg;ctx.beginPath();ctx.arc(x,y,r*3,0,Math.PI*2);ctx.fill()}
+ if(n.s.where==="desktop")glowOrb(x,y,r*6.5,"#FFB85A",.45);
  if(active){ctx.globalCompositeOperation="lighter";const ag=ctx.createRadialGradient(x,y,0,x,y,r*5);ag.addColorStop(0,"rgba(255,255,255,.55)");ag.addColorStop(.3,hexA(c,.3));ag.addColorStop(1,hexA(c,0));ctx.fillStyle=ag;ctx.beginPath();ctx.arc(x,y,r*5,0,Math.PI*2);ctx.fill()}
  const showLabel=active||(F&&F.has(n.id))||(anyQ&&matches(n))||(!F&&fg>.5);
  if(showLabel){ctx.globalAlpha=(d?.3:1)*Math.max(.55,fg);const fs=Math.round(11+2*Math.min(1.2,sc));ctx.font=`${active?600:500} ${fs}px 'IBM Plex Sans', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";const label=n.s.name,w=ctx.measureText(label).width,ly=y+r*2.2+8;
