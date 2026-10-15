@@ -160,20 +160,21 @@ const pairCount=links.filter(l=>l.kind==="pair").length;
 
 /* layout: 3D space */
 const cv=$("#cv"),ctx=cv.getContext("2d");let W=0,H=0,DPR=1,FOC=800;
-const SPH=280;
+const SP=2*(1+8/Math.max(1,S.length));/* spacing: always >=2x, grows as the catalogue shrinks */
+const SPH=280*SP;
 const cam={yaw:.6,pitch:-.28,dist:1000,tx:0,ty:0,tz:0,gx:0,gy:0,gz:0,gd:1000};
 let lastUser=0;
 function hubSphere(){const n=usedTags.length,ga=Math.PI*(3-Math.sqrt(5));usedTags.forEach((t,i)=>{const y=1-(i+.5)/n*2,r=Math.sqrt(1-y*y),a=i*ga;const h=byId["tag:"+t];h.x=Math.cos(a)*r*SPH;h.y=y*SPH*.8;h.z=Math.sin(a)*r*SPH})}
-nodes.forEach(n=>{if(!n.hub){const u=hash(n.id+"u")*2-1,a=hash(n.id+"a")*Math.PI*2,r=120*Math.cbrt(hash(n.id+"r")+.1);n.x=Math.cos(a)*Math.sqrt(1-u*u)*r;n.y=u*r;n.z=Math.sin(a)*Math.sqrt(1-u*u)*r;n.vz=0}});
+nodes.forEach(n=>{if(!n.hub){const u=hash(n.id+"u")*2-1,a=hash(n.id+"a")*Math.PI*2,r=120*SP*Math.cbrt(hash(n.id+"r")+.1);n.x=Math.cos(a)*Math.sqrt(1-u*u)*r;n.y=u*r;n.z=Math.sin(a)*Math.sqrt(1-u*u)*r;n.vz=0}});
 hubSphere();
 function resize(){DPR=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cv.style.width=W+"px";cv.style.height=H+"px";FOC=Math.min(W,H)*.95;kick()}
 let alpha=1;function kick(){alpha=1}
 function tick(){
  if(alpha<0.005)return;alpha*=0.985;
  for(let i=0;i<nodes.length;i++){const a=nodes[i];if(a.hub)continue;
-  for(let j=0;j<nodes.length;j++){if(i===j)continue;const b=nodes[j];let dx=a.x-b.x,dy=a.y-b.y,dz=a.z-b.z,d2=dx*dx+dy*dy+dz*dz+.01;const rep=(b.hub?6000:3200)/d2;const d=Math.sqrt(d2);a.vx+=dx/d*rep*alpha;a.vy+=dy/d*rep*alpha;a.vz+=dz/d*rep*alpha}
+  for(let j=0;j<nodes.length;j++){if(i===j)continue;const b=nodes[j];let dx=a.x-b.x,dy=a.y-b.y,dz=a.z-b.z,d2=dx*dx+dy*dy+dz*dz+.01;const rep=(b.hub?6000:3200)*SP*SP*SP/d2;const d=Math.sqrt(d2);a.vx+=dx/d*rep*alpha;a.vy+=dy/d*rep*alpha;a.vz+=dz/d*rep*alpha}
   a.vx-=a.x*0.0015*alpha;a.vy-=a.y*0.0015*alpha;a.vz-=a.z*0.0015*alpha}
- links.forEach(l=>{const a=l.a,b=l.b;const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,d=Math.hypot(dx,dy,dz)||1;const L=l.kind==="pair"?130:190,k=l.kind==="pair"?0.02:0.008;const f=(d-L)*k*alpha;
+ links.forEach(l=>{const a=l.a,b=l.b;const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z,d=Math.hypot(dx,dy,dz)||1;const L=(l.kind==="pair"?130:190)*SP,k=l.kind==="pair"?0.02:0.008;const f=(d-L)*k*alpha;
   if(!a.hub){a.vx+=dx/d*f;a.vy+=dy/d*f;a.vz+=dz/d*f}if(!b.hub){b.vx-=dx/d*f;b.vy-=dy/d*f;b.vz-=dz/d*f}});
  nodes.forEach(n=>{if(n.hub)return;n.vx*=0.82;n.vy*=0.82;n.vz*=0.82;n.x+=n.vx;n.y+=n.vy;n.z+=n.vz});
 }
@@ -219,7 +220,7 @@ function drawLink(l,P,t,F,focus,dim,anyQ){
    const g=ctx.createRadialGradient(px,py,0,px,py,R);g.addColorStop(0,`rgba(255,250,235,${a*(k?.6:1)})`);g.addColorStop(1,"rgba(255,170,90,0)");ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,py,R,0,Math.PI*2);ctx.fill()}}}
 }
 function drawNode(n,p,t,F,focus,dim,anyQ){
- const [x,y,zc,s]=p;const d=dim(n);const fg=fog(zc);const sc=Math.max(.45,Math.min(1.9,s));
+ const [x,y,zc,s]=p;const d=dim(n);const fg=fog(zc);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));
  if(n.hub){const c=TAGS[n.tag][2],r=34*sc;ctx.globalAlpha=(d?.25:1)*fg;
   const g=ctx.createRadialGradient(x,y,0,x,y,r*2.4);g.addColorStop(0,hexA(c,.32));g.addColorStop(.4,hexA(c,.12));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,r*2.4,0,Math.PI*2);ctx.fill();
   ctx.strokeStyle=hexA(c,.55);ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r*.62,0,Math.PI*2);ctx.stroke();
@@ -230,15 +231,22 @@ function drawNode(n,p,t,F,focus,dim,anyQ){
   const ex=x+Math.cos(a)*L,ey=y+Math.sin(a)*L,mx=x+Math.cos(a+.35)*L*.55,my=y+Math.sin(a+.35)*L*.55;const g=ctx.createLinearGradient(x,y,ex,ey);g.addColorStop(0,hexA(c,.55));g.addColorStop(1,hexA(c,0));
   ctx.strokeStyle=g;ctx.lineWidth=1.1*Math.min(1.4,sc);ctx.beginPath();ctx.moveTo(x,y);ctx.quadraticCurveTo(mx,my,ex,ey);ctx.stroke()}
  const halo=ctx.createRadialGradient(x,y,0,x,y,r*4.2*breath);halo.addColorStop(0,hexA(c,active?.6:.38));halo.addColorStop(.35,hexA(c,.14));halo.addColorStop(1,hexA(c,0));ctx.fillStyle=halo;ctx.beginPath();ctx.arc(x,y,r*4.2*breath,0,Math.PI*2);ctx.fill();
- const core=ctx.createRadialGradient(x-r*.25,y-r*.3,0,x,y,r);core.addColorStop(0,"rgba(255,255,245,.95)");core.addColorStop(.35,hexA(c,.95));core.addColorStop(1,hexA(c,.15));ctx.fillStyle=core;ctx.beginPath();ctx.arc(x,y,r*.78,0,Math.PI*2);ctx.fill();
+ const ins=ctx.createRadialGradient(x,y,0,x,y,r*1.6);ins.addColorStop(0,hexA(c,.9));ins.addColorStop(.5,hexA(c,.35));ins.addColorStop(1,hexA(c,0));ctx.fillStyle=ins;ctx.beginPath();ctx.arc(x,y,r*1.6,0,Math.PI*2);ctx.fill();
+ const ball=ctx.createRadialGradient(x-r*.28,y-r*.32,0,x,y,r*.95);ball.addColorStop(0,"rgba(255,255,255,1)");ball.addColorStop(.3,"rgba(255,252,240,.95)");ball.addColorStop(.7,hexA(c,.95));ball.addColorStop(1,hexA(c,.25));ctx.fillStyle=ball;ctx.beginPath();ctx.arc(x,y,r*.9,0,Math.PI*2);ctx.fill();
+ // diffraction spikes
+ const sl=r*(active?7:4.6)*breath,rot=reduce?0:t*.05+hash(n.id)*3;for(let i=0;i<4;i++){const a=rot+i*Math.PI/2,L=i%2?sl*.6:sl,ex=Math.cos(a)*L,ey=Math.sin(a)*L;const g=ctx.createLinearGradient(x-ex,y-ey,x+ex,y+ey);g.addColorStop(0,hexA(c,0));g.addColorStop(.5,"rgba(255,255,250,.85)");g.addColorStop(1,hexA(c,0));ctx.strokeStyle=g;ctx.lineWidth=Math.max(.8,r*.12);ctx.beginPath();ctx.moveTo(x-ex,y-ey);ctx.lineTo(x+ex,y+ey);ctx.stroke()}
  ctx.globalCompositeOperation="source-over";
- const tg=n.s.tags,seg=Math.PI*2/tg.length;tg.forEach((tt,i)=>{ctx.strokeStyle=hexA(TAGS[tt][2],.9);ctx.lineWidth=(active?2.4:1.6)*Math.min(1.3,sc);ctx.beginPath();ctx.arc(x,y,r*1.2,-Math.PI/2+i*seg+.12,-Math.PI/2+(i+1)*seg-.12);ctx.stroke()});
- if(n.s.where==="desktop"){ctx.strokeStyle="rgba(255,194,102,.8)";ctx.lineWidth=1;ctx.setLineDash([2,3]);ctx.beginPath();ctx.arc(x,y,r*1.55,0,Math.PI*2);ctx.stroke();ctx.setLineDash([])}
- if(active){ctx.strokeStyle="rgba(255,255,255,.85)";ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,r*1.9,0,Math.PI*2);ctx.stroke()}
- const showLabel=active||(F&&F.has(n.id))||(anyQ&&matches(n))||(!F&&s>.72);
- if(showLabel){ctx.globalAlpha=(d?.3:1)*Math.max(.55,fg);const fs=Math.round(11+2*Math.min(1.2,sc));ctx.font=`${active?600:500} ${fs}px 'IBM Plex Sans', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";const label=n.s.name,w=ctx.measureText(label).width,ly=y+r*1.6+6;
+ const orb=.32+.18*Math.abs(Math.sin(cam.pitch+hash(n.id)*2)),tilt=-.35+hash(n.id+"o")*.7+cam.yaw*.15;const tg=n.s.tags,seg=Math.PI*2/tg.length;tg.forEach((tt,i)=>{ctx.strokeStyle=hexA(TAGS[tt][2],.9);ctx.lineWidth=(active?2.4:1.6)*Math.min(1.3,sc);ctx.beginPath();ctx.ellipse(x,y,r*1.9,r*1.9*orb,tilt,-Math.PI/2+i*seg+.12,-Math.PI/2+(i+1)*seg-.12);ctx.stroke()});
+ if(n.s.where==="desktop"){ctx.strokeStyle="rgba(255,194,102,.8)";ctx.lineWidth=1;ctx.setLineDash([2,3]);ctx.beginPath();ctx.ellipse(x,y,r*2.4,r*2.4*orb,tilt,0,Math.PI*2);ctx.stroke();ctx.setLineDash([])}
+ if(active){ctx.strokeStyle="rgba(255,255,255,.85)";ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(x,y,r*2.9,r*2.9*orb,-tilt,0,Math.PI*2);ctx.stroke()}
+ const showLabel=active||(F&&F.has(n.id))||(anyQ&&matches(n))||(!F&&fg>.5);
+ if(showLabel){ctx.globalAlpha=(d?.3:1)*Math.max(.55,fg);const fs=Math.round(11+2*Math.min(1.2,sc));ctx.font=`${active?600:500} ${fs}px 'IBM Plex Sans', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";const label=n.s.name,w=ctx.measureText(label).width,ly=y+r*2.2+8;
   ctx.fillStyle="rgba(3,5,10,.66)";ctx.beginPath();ctx.roundRect?ctx.roundRect(x-w/2-7,ly-2,w+14,fs+7,10):ctx.rect(x-w/2-7,ly-2,w+14,fs+7);ctx.fill();ctx.fillStyle=active?"#fff":"#E2E8FA";ctx.fillText(label,x,ly+1)}
  ctx.globalCompositeOperation="lighter";ctx.globalAlpha=1}
+const NEB=[["#3A2A8C",-1,.2,.4,1.3],["#0E5A6E",1,-.3,-.5,1.1],["#7A2E5C",.2,.6,1,1],["#1F3F9E",-.4,-.7,-1,1.2],["#6B3A12",.9,.5,.2,.8],["#123E4A",0,0,0,1.6]];
+function drawNebula(){NEB.forEach(([c,x,y,z,r])=>{const [sx,sy,zc,sc]=proj(x*SPH*1.3,y*SPH,z*SPH*1.3);const R=r*SPH*sc*1.4;if(zc<80)return;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,R);g.addColorStop(0,hexA(c,.22));g.addColorStop(.45,hexA(c,.09));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.fillRect(sx-R,sy-R,R*2,R*2)});
+ // depth haze: a lighter band toward the centre of the space
+ const [cx,cy,,cs]=proj(0,0,0),hr=SPH*cs*1.6,h=ctx.createRadialGradient(cx,cy,0,cx,cy,hr);h.addColorStop(0,"rgba(90,110,200,.10)");h.addColorStop(1,"rgba(90,110,200,0)");ctx.fillStyle=h;ctx.fillRect(cx-hr,cy-hr,hr*2,hr*2)}
 let P=new Map();
 function draw(now){
  tick();const t=(now-t0)/1000,dt=Math.min(.05,(now-lastT)/1000);lastT=now;
@@ -248,7 +256,7 @@ function draw(now){
  camPrep();
  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalCompositeOperation="source-over";
  const bg=ctx.createRadialGradient(W*.5,H*.45,0,W*.5,H*.45,Math.max(W,H)*.8);bg.addColorStop(0,"#0B1024");bg.addColorStop(.55,"#05070F");bg.addColorStop(1,"#020306");ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
- ctx.globalCompositeOperation="lighter";
+ ctx.globalCompositeOperation="lighter";drawNebula();
  const F=focusSet(),anyQ=!!st.q,focus=st.hover||st.sel;const dim=n=>(F&&!F.has(n.id))||(anyQ&&!n.hub&&!matches(n));
  P=new Map();nodes.forEach(n=>P.set(n,proj(n.x,n.y,n.z)));
  // painter's order: far to near
@@ -263,9 +271,9 @@ function draw(now){
 }
 
 /* interaction: drag orbits, wheel/pinch zooms */
-function pick(sx,sy){let best=null,bz=1e9;nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.45,Math.min(1.9,s));const R=(n.hub?26:n.r*1.5)*sc+6;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
+function pick(sx,sy){let best=null,bz=1e9;nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));const R=(n.hub?26:n.r*1.5)*sc+6;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
 let drag=null,moved=false,pinch=null;const ptrs=new Map();
-const zoomTo=d=>{cam.gd=Math.max(380,Math.min(2200,d))};
+const zoomTo=d=>{cam.gd=Math.max(380,Math.min(2400*SP,d))};
 cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=false;lastUser=performance.now();
  if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinch={d:Math.hypot(a.x-b.x,a.y-b.y),gd:cam.gd};drag=null;return}
  drag={x:e.clientX,y:e.clientY,yaw:cam.yaw,pitch:cam.pitch};cv.classList.add("drag")});
@@ -287,8 +295,8 @@ function showTip(n,x,y){const tip=$("#tip");if(!n){tip.classList.remove("on");re
 
 function toggleTag(t,solo){if(solo){const only=st.off.size===usedTags.length-1&&!st.off.has(t);st.off=new Set(only?[]:usedTags.filter(x=>x!==t))}else{st.off.has(t)?st.off.delete(t):st.off.add(t)}renderTags()}
 /* selecting flies the camera to the neuron */
-function select(n){st.sel=n;renderPanel();if(n){cam.gx=n.x;cam.gy=n.y;cam.gz=n.z;zoomTo(Math.min(cam.gd,720));lastUser=performance.now()}}
-function fit(){const R=Math.max(...nodes.map(n=>Math.hypot(n.x,n.y,n.z)))+80;cam.gx=cam.gy=cam.gz=0;zoomTo(R*FOC/(Math.min(W,H)*.5)+R*.3)}
+function select(n){st.sel=n;renderPanel();if(n){cam.gx=n.x;cam.gy=n.y;cam.gz=n.z;zoomTo(Math.min(cam.gd,720+200*SP));lastUser=performance.now()}}
+function fit(){const R=Math.max(...nodes.map(n=>Math.hypot(n.x,n.y,n.z)))+80;cam.gx=cam.gy=cam.gz=0;zoomTo(R*FOC/(Math.min(W,H)*.5)+R*.2)}
 
 /* UI */
 function renderTags(){$("#tags").innerHTML=usedTags.map(t=>`<button class="tag" style="--c:${TAGS[t][2]}" data-tag="${t}" aria-pressed="${!st.off.has(t)}"><i></i>${TAGS[t][li()]}</button>`).join("")}
