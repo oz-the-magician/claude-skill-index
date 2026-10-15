@@ -1,0 +1,25 @@
+id: click-path-audit
+name: Click-Path Audit
+skill: click-path-audit
+author: Affaan Mustafa (ECC)
+source: https://github.com/affaan-m/ECC
+license: MIT
+license_caveat: false
+tags:
+- engineering
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 15.10.2026
+summary:
+  ru: 'Ищет кнопки, которые «ничего не делают»: трассирует каждый обработчик и находит, где следующий вызов молча отменяет предыдущий, гонки async и мёртвые условия.'
+  en: 'Finds buttons that "do nothing": traces every handler and spots where a later call silently undoes an earlier one, async races and dead branches.'
+prompt:
+  ru: 'Проверь click-path-audit экран смерти в Девятой жизни: «Продолжить» иногда не снимает паузу.'
+  en: 'Run click-path-audit on the Nine Lives game-over screen: "Continue" sometimes leaves the game paused.'
+note:
+  ru: 'Из сборника ECC (skills/click-path-audit). Один SKILL.md, скриптов нет. Лучше всего в Claude Code, где агент сам читает файлы; в чате — по вставленному коду или артефакту.'
+  en: 'From the ECC collection (skills/click-path-audit). One SKILL.md, no scripts. Best in Claude Code where the agent reads files itself; in chat it works from pasted code or an artifact.'
+pairs: Blueprint, Architecture Decision Records
