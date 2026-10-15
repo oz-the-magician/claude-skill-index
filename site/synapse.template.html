@@ -247,7 +247,7 @@ function drawNode(n,p,t,F,focus,dim,anyQ){
   ctx.globalCompositeOperation="lighter";const gg=ctx.createRadialGradient(sx,sy,0,sx,sy,rr*3.2);gg.addColorStop(0,"rgba(255,255,255,.95)");gg.addColorStop(.3,hexA(cc,.9));gg.addColorStop(1,hexA(cc,0));ctx.fillStyle=gg;ctx.beginPath();ctx.arc(sx,sy,rr*3.2,0,Math.PI*2);ctx.fill()});
  if(n.s.where==="desktop")glowOrb(x,y,r*6.5,"#FFB85A",.45);
  if(active){ctx.globalCompositeOperation="lighter";const ag=ctx.createRadialGradient(x,y,0,x,y,r*5);ag.addColorStop(0,"rgba(255,255,255,.55)");ag.addColorStop(.3,hexA(c,.3));ag.addColorStop(1,hexA(c,0));ctx.fillStyle=ag;ctx.beginPath();ctx.arc(x,y,r*5,0,Math.PI*2);ctx.fill()}
- const showLabel=active||(F&&F.has(n.id))||(anyQ&&matches(n))||(!F&&fg>.5);
+ const showLabel=false;/* skill names live in the tooltip and panel; only task names are drawn */
  if(showLabel){ctx.globalAlpha=(d?.3:1)*Math.max(.55,fg);const fs=Math.round(11+2*Math.min(1.2,sc));ctx.font=`${active?600:500} ${fs}px 'IBM Plex Sans', sans-serif`;ctx.textAlign="center";ctx.textBaseline="top";const label=n.s.name,w=ctx.measureText(label).width,ly=y+r*2.2+8;
   ctx.fillStyle="rgba(3,5,10,.66)";ctx.beginPath();ctx.roundRect?ctx.roundRect(x-w/2-7,ly-2,w+14,fs+7,10):ctx.rect(x-w/2-7,ly-2,w+14,fs+7);ctx.fill();ctx.fillStyle=active?"#fff":"#E2E8FA";ctx.fillText(label,x,ly+1)}
  ctx.globalCompositeOperation="lighter";ctx.globalAlpha=1}
