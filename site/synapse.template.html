@@ -63,6 +63,11 @@ a{color:inherit}
 .panel{position:fixed;z-index:6;top:calc(env(safe-area-inset-top,0px) + 78px);right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);width:min(380px,calc(100vw - 32px));padding:20px;overflow:auto;
   transform:translateX(calc(100% + 24px));opacity:0;transition:transform 300ms var(--out),opacity 220ms var(--out)}
 .panel.open{transform:none;opacity:1}
+.panel .istep{margin-top:18px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.02)}
+.panel .istep h4{margin:0 0 8px;font-family:var(--display);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#FFC98A}
+.panel .istep ol,.panel .istep ul{margin:0;padding-left:20px;font-size:14px;line-height:1.55;color:var(--text)}
+.panel .istep li+li{margin-top:4px}
+.panel .istep code{font-family:var(--mono);font-size:12.5px;background:rgba(255,255,255,.06);padding:1px 6px;border-radius:5px}
 .panel .close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:none;cursor:pointer;color:var(--text-2)}
 .ptag{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;color:var(--text-2);margin-right:10px}
 .ptag i{width:8px;height:8px;border-radius:50%;background:var(--c);box-shadow:0 0 6px var(--c)}
@@ -135,6 +140,15 @@ a{color:inherit}
 <script>
 /*SKILLS*/
 const TAGS={motion:["Моушн","Motion","#B48CFF"],ui:["UI/UX","UI/UX","#5C9DFF"],web:["Веб","Web","#2EE6C5"],style:["Стиль","Style","#FF6FAE"],game2d:["Геймдев 2D","Game dev 2D","#FFB347"],video:["Видео","Video","#FF7A59"],slides:["Презентации","Presentations","#8A93FF"],text:["Тексты","Writing","#C9D3EA"],engineering:["Инженерия","Engineering","#7CF29A"]};
+const INSTALL={
+ ru:{h:"Как установить скилл",lead:"Скилл — это папка с файлом SKILL.md. Ставится один раз и дальше подключается сам, когда задача подходит.",
+  steps:[["Claude в браузере и десктопе","<ol><li>Открой карточку скилла и перейди в репозиторий автора.</li><li>Скачай папку скилла архивом .zip.</li><li>Settings → Capabilities → Skills → загрузи архив.</li></ol>"],
+   ["Claude Code","<ol><li>Скачай или склонируй папку скилла.</li><li>Положи её в <code>~/.claude/skills/</code>.</li><li>Перезапусти сессию.</li></ol>"],
+   ["Что учесть","<ul><li>Скиллы с янтарным свечением работают только в десктопе: им нужен запуск кода.</li><li>Перед установкой посмотри в карточке лицензию и примечания.</li></ul>"]]},
+ en:{h:"How to install a skill",lead:"A skill is a folder with a SKILL.md file. Install it once and Claude uses it whenever a task fits.",
+  steps:[["Claude on web and desktop","<ol><li>Open the skill card and go to the author's repository.</li><li>Download the skill folder as a .zip.</li><li>Settings → Capabilities → Skills → upload the archive.</li></ol>"],
+   ["Claude Code","<ol><li>Download or clone the skill folder.</li><li>Put it in <code>~/.claude/skills/</code>.</li><li>Restart the session.</li></ol>"],
+   ["Keep in mind","<ul><li>Skills with an amber glow run on desktop only: they need code execution.</li><li>Check the licence and notes on the card before installing.</li></ul>"]]}};
 const T={
  ru:{stat:(n,l)=>`${n} скиллов · ${l} связей`,search:"Найти скилл",fit:"Показать всё",list:"Список",legend:"Задачи",kPair:"Работают вместе",kTag:"Относится к задаче",kDesk:"Только десктоп",
   hint:"Наведи, чтобы увидеть связи. Клик открывает карточку. Тяни, чтобы вращать пространство, колесо или щипок приближают.",
@@ -191,7 +205,7 @@ function tick(){
 const st={q:"",off:new Set(),hover:null,sel:null};
 function visible(n){if(n.hub)return !st.off.has(n.tag);const s=n.s;if(s.tags.every(t=>st.off.has(t)))return false;return true}
 function matches(n){if(!st.q)return true;if(n.hub)return false;const q=st.q.toLowerCase();const s=n.s;return (s.name+" "+s.skill+" "+s.author+" "+s.sum.join(" ")).toLowerCase().includes(q)}
-function focusSet(){const f=st.hover||st.sel;if(!f)return null;return new Set([f.id,...nbr[f.id]])}
+function focusSet(){const f=(st.hover&&st.hover.core?null:st.hover)||st.sel;if(!f)return null;return new Set([f.id,...nbr[f.id]])}
 
 /* projection: orbit camera around a target */
 let cy_=1,sy_=0,cp_=1,sp_=0;
@@ -263,6 +277,13 @@ const NEB=[["#3A2A8C",-1,.2,.4,1.3],["#0E5A6E",1,-.3,-.5,1.1],["#7A2E5C",.2,.6,1
 function drawNebula(){NEB.forEach(([c,x,y,z,r])=>{const [sx,sy,zc,sc]=proj(x*SPH*1.3,y*SPH,z*SPH*1.3);const R=r*SPH*sc*1.4;if(zc<80)return;const g=ctx.createRadialGradient(sx,sy,0,sx,sy,R);g.addColorStop(0,hexA(c,.22));g.addColorStop(.45,hexA(c,.09));g.addColorStop(1,hexA(c,0));ctx.fillStyle=g;ctx.fillRect(sx-R,sy-R,R*2,R*2)});
  // depth haze: a lighter band toward the centre of the space
  const [cx,cy,,cs]=proj(0,0,0),hr=SPH*cs*1.6,h=ctx.createRadialGradient(cx,cy,0,cx,cy,hr);h.addColorStop(0,"rgba(90,110,200,.10)");h.addColorStop(1,"rgba(90,110,200,0)");ctx.fillStyle=h;ctx.fillRect(cx-hr,cy-hr,hr*2,hr*2)}
+/* the core: centre of the space, linked to every task; click opens install guide */
+const CORE={id:"core",core:true,x:0,y:0,z:0};
+function drawCore(p,t){const [x,y,zc,s]=p,sc=Math.max(.6,Math.min(2.4,s*Math.sqrt(SP))),hov=st.hover===CORE||st.core;
+ usedTags.forEach((tg,i)=>{const h=byId["tag:"+tg];if(!visible(h))return;const [hx,hy]=P.get(h),c=TAGS[tg][2];
+  const g=ctx.createLinearGradient(x,y,hx,hy);g.addColorStop(0,"rgba(255,236,205,.22)");g.addColorStop(1,hexA(c,.05));ctx.strokeStyle=g;ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(hx,hy);ctx.stroke();
+  if(!reduce){const ph=(t*.18+i/usedTags.length)%1;if(ph<.6){const q=ph/.6,px=x+(hx-x)*q,py=y+(hy-y)*q;glowOrb(px,py,10*sc,c,(1-q)*.9)}}});
+ const pul=reduce?1:1+Math.sin(t*1.1)*.07;glowOrb(x,y,260*sc*pul*(hov?1.15:1),"#FFB870",.7);glowOrb(x,y,120*sc*pul,"#FFE2B8",1);glowOrb(x,y,50*sc,"#FFFFFF",1)}
 let P=new Map();
 function draw(now){
  tick();const t=(now-t0)/1000,dt=Math.min(.05,(now-lastT)/1000);lastT=now;
@@ -273,21 +294,21 @@ function draw(now){
  ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalCompositeOperation="source-over";
  const bg=ctx.createRadialGradient(W*.5,H*.45,0,W*.5,H*.45,Math.max(W,H)*.8);bg.addColorStop(0,"#0B1024");bg.addColorStop(.55,"#05070F");bg.addColorStop(1,"#020306");ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
  ctx.globalCompositeOperation="lighter";drawNebula();
- const F=focusSet(),anyQ=!!st.q,focus=st.hover||st.sel;const dim=n=>(F&&!F.has(n.id))||(anyQ&&!n.hub&&!matches(n));
+ const F=focusSet(),anyQ=!!st.q,focus=(st.hover&&st.hover.core?null:st.hover)||st.sel;const dim=n=>(F&&!F.has(n.id))||(anyQ&&!n.hub&&!matches(n));
  P=new Map();nodes.forEach(n=>P.set(n,proj(n.x,n.y,n.z)));
  // painter's order: far to near
  const items=[];
  links.forEach(l=>{if(visible(l.a)&&visible(l.b))items.push([(P.get(l.a)[2]+P.get(l.b)[2])/2+(l.kind==="tag"?40:0),0,l])});
- nodes.forEach(n=>{if(visible(n))items.push([P.get(n)[2],1,n])});
+ nodes.forEach(n=>{if(visible(n))items.push([P.get(n)[2],1,n])});P.set(CORE,proj(0,0,0));items.push([P.get(CORE)[2],2,CORE]);
  items.sort((a,b)=>b[0]-a[0]);
- items.forEach(([,k,o])=>k?drawNode(o,P.get(o),t,F,focus,dim,anyQ):drawLink(o,P,t,F,focus,dim,anyQ));
+ items.forEach(([,k,o])=>k===2?drawCore(P.get(o),t):k?drawNode(o,P.get(o),t,F,focus,dim,anyQ):drawLink(o,P,t,F,focus,dim,anyQ));
  ctx.globalCompositeOperation="source-over";
  const v=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.35,W/2,H/2,Math.max(W,H)*.75);v.addColorStop(0,"rgba(0,0,0,0)");v.addColorStop(1,"rgba(0,0,0,.55)");ctx.fillStyle=v;ctx.fillRect(0,0,W,H);
  requestAnimationFrame(draw);
 }
 
 /* interaction: drag orbits, wheel/pinch zooms */
-function pick(sx,sy){let best=null,bz=1e9;nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));const R=(n.hub?26:n.r*1.5)*sc+6;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
+function pick(sx,sy){let best=null,bz=1e9;if(P.has(CORE)){const [x,y,zc,s]=P.get(CORE);if(Math.hypot(x-sx,y-sy)<26*Math.max(.6,Math.min(2.4,s*Math.sqrt(SP)))+8){best=CORE;bz=zc}}nodes.forEach(n=>{if(!visible(n)||!P.has(n))return;const [x,y,zc,s]=P.get(n);const sc=Math.max(.5,Math.min(2.2,s*Math.sqrt(SP)));const R=(n.hub?26:n.r*1.5)*sc+6;if(best===CORE&&zc>bz-40)return;if(Math.hypot(x-sx,y-sy)<R&&zc<bz){bz=zc;best=n}});return best}
 let drag=null,moved=false,pinch=null;const ptrs=new Map();
 const zoomTo=d=>{cam.gd=Math.max(380,Math.min(2400*SP,d))};
 cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});moved=false;lastUser=performance.now();
@@ -296,28 +317,32 @@ cv.addEventListener("pointerdown",e=>{cv.setPointerCapture(e.pointerId);ptrs.set
 cv.addEventListener("pointermove",e=>{if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
  if(pinch&&ptrs.size===2){const [a,b]=[...ptrs.values()];zoomTo(pinch.gd*pinch.d/Math.hypot(a.x-b.x,a.y-b.y));lastUser=performance.now();return}
  if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(Math.abs(dx)+Math.abs(dy)>3)moved=true;cam.yaw=drag.yaw+dx*.006;cam.pitch=Math.max(-1.35,Math.min(1.35,drag.pitch-dy*.006));lastUser=performance.now();showTip(null);return}
- const n=pick(e.clientX,e.clientY);st.hover=n&&!n.hub?n:null;cv.classList.toggle("hover",!!n);showTip(n,e.clientX,e.clientY)});
+ const n=pick(e.clientX,e.clientY);st.hover=n&&(!n.hub||n.core)?n:null;cv.classList.toggle("hover",!!n);showTip(n,e.clientX,e.clientY)});
 function up(e){ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;cv.classList.remove("drag");
- if(!moved&&drag){const n=pick(e.clientX,e.clientY);if(n&&!n.hub)select(n);else if(n&&n.hub)toggleTag(n.tag,true);else select(null)}
+ if(!moved&&drag){const n=pick(e.clientX,e.clientY);if(n&&n.core)openCore();else if(n&&!n.hub)select(n);else if(n&&n.hub)toggleTag(n.tag,true);else select(null)}
  drag=null}
 cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
 cv.addEventListener("pointerleave",()=>{st.hover=null;showTip(null)});
 cv.addEventListener("wheel",e=>{e.preventDefault();lastUser=performance.now();zoomTo(cam.gd*Math.exp(e.deltaY*.0012))},{passive:false});
 
 function showTip(n,x,y){const tip=$("#tip");if(!n){tip.classList.remove("on");return}
- if(n.hub){tip.innerHTML=`<b style="color:${TAGS[n.tag][2]}">${TAGS[n.tag][li()]}</b><span>${nbr[n.id].size} · ${lang==="ru"?"клик: показать только эту задачу":"click: show only this task"}</span>`}
+ if(n.core){tip.innerHTML=`<b>${lang==="ru"?"Как установить скилл":"How to install a skill"}</b><span>${lang==="ru"?"Клик: инструкция":"Click for the guide"}</span>`}
+ else if(n.hub){tip.innerHTML=`<b style="color:${TAGS[n.tag][2]}">${TAGS[n.tag][li()]}</b><span>${nbr[n.id].size} · ${lang==="ru"?"клик: показать только эту задачу":"click: show only this task"}</span>`}
  else tip.innerHTML=`<b>${esc(n.s.name)}</b><span>${esc(n.s.sum[li()])}</span>`;
  tip.style.left=Math.min(x+16,innerWidth-280)+"px";tip.style.top=(y+16)+"px";tip.classList.add("on")}
 
 function toggleTag(t,solo){if(solo){const only=st.off.size===usedTags.length-1&&!st.off.has(t);st.off=new Set(only?[]:usedTags.filter(x=>x!==t))}else{st.off.has(t)?st.off.delete(t):st.off.add(t)}renderTags()}
 /* selecting flies the camera to the neuron */
-function select(n){st.sel=n;renderPanel();if(n){cam.gx=n.x;cam.gy=n.y;cam.gz=n.z;zoomTo(Math.min(cam.gd,720+200*SP));lastUser=performance.now()}}
+function openCore(){st.sel=null;st.core=true;renderPanel();cam.gx=cam.gy=cam.gz=0;lastUser=performance.now()}
+function select(n){st.sel=n;st.core=false;renderPanel();if(n){cam.gx=n.x;cam.gy=n.y;cam.gz=n.z;zoomTo(Math.min(cam.gd,720+200*SP));lastUser=performance.now()}}
 function fit(){const R=Math.max(...nodes.map(n=>Math.hypot(n.x,n.y,n.z)))+80;cam.gx=cam.gy=cam.gz=0;zoomTo(R*FOC/(Math.min(W,H)*.5)+R*.2)}
 
 /* UI */
 function renderTags(){$("#tags").innerHTML=usedTags.map(t=>`<button class="tag" style="--c:${TAGS[t][2]}" data-tag="${t}" aria-pressed="${!st.off.has(t)}"><i></i>${TAGS[t][li()]}</button>`).join("")}
 const ext='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>';
-function renderPanel(){const p=$("#panel"),t=T[lang],n=st.sel;if(!n){p.classList.remove("open");return}
+function renderPanel(){const p=$("#panel"),t=T[lang],n=st.sel;
+ if(st.core&&!n){const I=INSTALL[lang];p.innerHTML=`<button class="close" id="close" aria-label="${t.close}">✕</button><h3>${I.h}</h3><p class="sum">${I.lead}</p>${I.steps.map(([h,b])=>`<div class="istep"><h4>${h}</h4>${b}</div>`).join("")}`;p.classList.add("open");return}
+ if(!n){p.classList.remove("open");return}
  const s=n.s,ls=[...nbr[n.id]].map(id=>byId[id]).filter(x=>!x.hub);
  p.innerHTML=`<button class="close" id="close" aria-label="${t.close}">✕</button>
   <div>${s.tags.map(x=>`<span class="ptag" style="--c:${TAGS[x][2]}"><i></i>${TAGS[x][li()]}</span>`).join("")}</div>
