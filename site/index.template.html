@@ -258,7 +258,7 @@ const T={
   foot:"Descriptions here are my own. Skills belong to their authors under the stated licences. A check date covers the version on that day."}
 };
 const L={
- tags:{motion:["Моушн","Motion"],ui:["UI/UX","UI/UX"],web:["Веб","Web"],style:["Стиль","Style"],game2d:["Геймдев 2D","Game dev 2D"],video:["Видео","Video"],slides:["Презентации","Presentations"],text:["Тексты","Writing"]},
+ tags:{motion:["Моушн","Motion"],ui:["UI/UX","UI/UX"],web:["Веб","Web"],style:["Стиль","Style"],game2d:["Геймдев 2D","Game dev 2D"],video:["Видео","Video"],slides:["Презентации","Presentations"],text:["Тексты","Writing"],engineering:["Инженерия","Engineering"]},
  where:{web:["Веб и десктоп","Web and desktop"],desktop:["Только десктоп","Desktop only"]},
  needs:{text:["Только текст","Text only"],node:["Node","Node"],ffmpeg:["ffmpeg","ffmpeg"]},
  load:{none:["Нет","None"],light:["Лёгкая","Light"],mid:["Средняя","Medium"],heavy:["Высокая","Heavy"]}
@@ -268,7 +268,7 @@ const MACHINES=[
  {id:"pc16",cap:1.5,name:"PC, Core i5, 16 GB"},{id:"pc4070",cap:4,name:"PC, Ryzen 7, 32 GB, RTX 4070"},{id:"pc4090",cap:5,name:"PC, Ryzen 9, 64 GB, RTX 4090"}
 ];
 /*SKILLS*/
-const HUE={motion:"#7E57C2",ui:"#1E88E5",web:"#00897B",style:"#D81B60",game2d:"#F57C00",video:"#E64A19",slides:"#5C6BC0",text:"#546E7A"};
+const HUE={motion:"#7E57C2",ui:"#1E88E5",web:"#00897B",style:"#D81B60",game2d:"#F57C00",video:"#E64A19",slides:"#5C6BC0",text:"#546E7A",engineering:"#43A047"};
 const ICO={check:'<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>',x:'<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>',ext:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>',drop:'<svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>',exp:'<svg viewBox="0 0 24 24"><path d="M16.59 8.59 12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>'};
 let lang="ru";try{lang=localStorage.getItem("si-lang")||"ru"}catch(e){}
 const st={q:"",tags:new Set(),where:new Set(),needs:new Set(),load:new Set(),machine:"m1pro",open:new Set(),view:"skills",dd:null};

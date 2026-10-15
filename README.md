@@ -23,7 +23,7 @@ author: Siqi Chen
 source: https://github.com/blader/humanizer
 license: MIT
 license_caveat: false         # true when the licence limits use or redistribution
-tags: [text]                  # motion, ui, web, style, game2d, video, slides, text
+tags: [text]                  # motion, ui, web, style, game2d, video, slides, text, engineering
 where: web                    # web = web and desktop; desktop = needs code execution
 needs: [text]                 # text, node, ffmpeg
 load: 0                       # 0 to 5, local machine load

@@ -1,0 +1,24 @@
+id: blueprint
+name: Blueprint
+skill: blueprint
+author: Affaan Mustafa (ECC)
+source: https://github.com/affaan-m/ECC
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: web
+needs:
+- text
+load: 0
+checked: 15.10.2026
+summary:
+  ru: 'Превращает цель в одну строку в план из 3–12 шагов: у каждого свой контекст, задачи, проверка и критерий готовности. Граф зависимостей показывает, что можно делать параллельно.'
+  en: 'Turns a one-line goal into a 3–12 step plan: each step has its own context, tasks, check and exit criteria. A dependency graph shows what can run in parallel.'
+prompt:
+  ru: 'Сделай blueprint для Porsche 911: сцена из Blender, скролл-конфигуратор и мини-гонка.'
+  en: 'Make a blueprint for the Porsche 911 site: Blender scene, scroll configurator and a race mini-game.'
+note:
+  ru: 'Из сборника ECC (skills/blueprint), идея от antbotlab/blueprint. Один SKILL.md, скриптов нет. В чате план приходит текстом; файлы plans/ и ветки PR появляются только в Claude Code с git.'
+  en: 'From the ECC collection (skills/blueprint), based on antbotlab/blueprint. One SKILL.md, no scripts. In chat the plan arrives as text; plans/ files and PR branches only appear in Claude Code with git.'
+pairs: Council, Architecture Decision Records
