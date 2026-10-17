@@ -1,0 +1,25 @@
+id: pxl
+name: pxl
+skill: pxl-pixel-art
+author: crsolver
+source: https://github.com/crsolver/claude-pxl
+license: MIT
+license_caveat: false
+tags:
+- game2d
+- style
+where: desktop
+needs:
+- node
+load: 1
+checked: 17.10.2026
+summary:
+  ru: 'Пиксель-арт как код: спрайты из текстовых сеток, сцены со светом, листы спрайтов с JSON и GIF. Живой просмотр отрисовки в браузере.'
+  en: 'Pixel art as code: sprites from text grids, lit scenes, sprite sheets with JSON and GIFs. Live in-browser view of the painting.'
+prompt:
+  ru: 'Сделай в pxl спрайт Плюши 16×16 с перекраской в рыжий и лист бега из 6 кадров.'
+  en: 'In pxl, make a 16×16 Plusha sprite, a ginger recolour and a 6-frame run sheet.'
+note:
+  ru: 'Нужен Node 22.18+, без внешних зависимостей и сети. Просмотрщик слушает только 127.0.0.1.'
+  en: 'Needs Node 22.18+, no external dependencies or network. The viewer listens on 127.0.0.1 only.'
+pairs: Pixel Art Sprites, Unity 2D Pixel Perfect
