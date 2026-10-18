@@ -1,7 +1,7 @@
 # Claude Skill Index
 
 A bilingual (RU / EN) catalogue of Claude skills I have reviewed for code and licence, then installed.
-Every entry links to the author's original repository. Nothing from those repositories is re-hosted here.
+Every entry links to the author's original repository. Nothing from those repositories is re-hosted here. My own skills live in `own-skills/` and their cards link there.
 
 **Site:** https://oz-the-magician.github.io/claude-skill-index/
 
@@ -40,5 +40,6 @@ Check locally with `pip install pyyaml && python scripts/build.py --check`.
 
 - Site code (`site/`, `scripts/`, `.github/`): MIT, see `LICENSE`.
 - Card texts (`skills/`) and this README: CC BY 4.0, see `LICENSE-CONTENT`.
+- My own skills in `own-skills/`: MIT, see `LICENSE`.
 - The skills themselves belong to their authors under their own licences, shown on each card.
   A check date covers the version reviewed on that day, not later ones.

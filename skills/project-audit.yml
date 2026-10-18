@@ -1,0 +1,25 @@
+id: project-audit
+name: Project Audit
+skill: project-audit
+author: OZ (oz-the-magician)
+source: https://github.com/oz-the-magician/claude-skill-index/tree/main/own-skills/project-audit
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: desktop
+needs:
+- text
+- node
+load: 2
+checked: 18.10.2026
+summary:
+  ru: 'Аудит проекта на утечки секретов, уязвимые зависимости, XSS, инъекции и баги. Два режима: quick (~5 минут) и full; отчёт по уровням Critical–Low, код не меняется.'
+  en: 'Audits a project for leaked secrets, vulnerable dependencies, XSS, injections and bugs. Two modes, quick (~5 min) and full; severity-ranked report, no code changes.'
+prompt:
+  ru: 'Прогони project-audit в режиме full по pagelock.'
+  en: 'Run project-audit in full mode on pagelock.'
+note:
+  ru: 'Свой скилл, один SKILL.md без скриптов. Сканеры (gitleaks, semgrep, npm audit и др.) ставятся в рабочее окружение, не в проект. В full находки перепроверяет отдельный агент; задеплоенное проверяется только пассивно и с согласия.'
+  en: 'My own skill: one SKILL.md, no scripts. Scanners (gitleaks, semgrep, npm audit and others) are installed in the working environment, not the project. In full mode a separate agent re-checks findings; deployed sites are checked passively and only with consent.'
+pairs: Click Path Audit, Council
