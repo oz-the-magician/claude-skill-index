@@ -1,0 +1,25 @@
+id: pipeline
+name: Pipeline
+skill: pipeline
+author: OZ (oz-the-magician)
+source: https://github.com/oz-the-magician/claude-skill-index/tree/main/own-skills/pipeline
+license: MIT
+license_caveat: false
+tags:
+- engineering
+- text
+where: desktop
+needs:
+- text
+load: 0
+checked: 22.10.2026
+summary:
+  ru: 'Единый порядок работы с Claude: оценка задачи, проект или чаты с датой, папка с CONTEXT.md, журналом решений и дашбордом, передача дел в новый чат до лимита.'
+  en: 'One standard way to work with Claude: task sizing, a project or dated chats, a folder with CONTEXT.md, a decision log and a dashboard, handoff to a new chat before the limit.'
+prompt:
+  ru: 'Нужен генератор картинок из случайных образов по сидам в заданном стиле — запусти pipeline. А в конце работы: «завершаем сессию».'
+  en: 'I need an image generator that turns seeds into random motifs in a set style — run pipeline. At the end: "wrap up the session".'
+note:
+  ru: 'Свой скилл, один SKILL.md с встроенным шаблоном дашборда. Папка проекта нужна на компьютере, поэтому полный цикл работает в настольном приложении. Говорит на языке пользователя, перед каждым изменением спрашивает подтверждение.'
+  en: 'My own skill: one SKILL.md with a built-in dashboard template. The project folder lives on your computer, so the full cycle needs the desktop app. Speaks the user''s language and asks before every change.'
+pairs: Project Audit, Council
