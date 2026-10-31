@@ -1,0 +1,25 @@
+id: sp-writing-skills
+name: Writing Skills
+skill: writing-skills
+author: Jesse Vincent
+source: https://github.com/obra/superpowers
+license: MIT
+license_caveat: false
+tags:
+- engineering
+- text
+where: web
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: 'Как писать свои скиллы: структура, описание для срабатывания, проверка на сценариях, схемы. С выдержками из рекомендаций Anthropic.'
+  en: 'How to write your own skills: structure, triggering descriptions, scenario testing, diagrams. Includes Anthropic best-practice notes.'
+prompt:
+  ru: 'Помоги довести мой скилл строгого критика: проверь описание и протестируй на трёх сценариях.'
+  en: 'Help finish my strict-critic skill: check the description and test it on three scenarios.'
+note:
+  ru: Из набора Superpowers. Ссылается на скилл тестов, его нет. Скрипт схем нужен только для рисования графов.
+  en: From Superpowers. References a testing skill that isn't installed. The diagram script is only for drawing graphs.
+pairs: Pipeline, Council

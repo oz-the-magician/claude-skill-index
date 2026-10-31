@@ -1,0 +1,24 @@
+id: sp-debugging
+name: Systematic Debugging
+skill: systematic-debugging
+author: Jesse Vincent
+source: https://github.com/obra/superpowers
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: web
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: 'Ищет причину бага по шагам: воспроизвести, найти корень, проверить гипотезу и только потом чинить. Без латания симптомов.'
+  en: 'Finds a bug''s cause step by step: reproduce, find the root, test the hypothesis, then fix. No patching symptoms.'
+prompt:
+  ru: Персонаж иногда проваливается сквозь пол после прыжка, найди причину, прежде чем править.
+  en: The character sometimes falls through the floor after a jump, find the cause before fixing.
+note:
+  ru: Из набора Superpowers. Советует скилл тестов test-driven-development, его нет, работает и без него.
+  en: From Superpowers. Recommends test-driven-development, which isn't installed; works without it.
+pairs: Verification Before Completion, Project Audit, Click-Path Audit

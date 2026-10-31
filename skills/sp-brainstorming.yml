@@ -1,0 +1,25 @@
+id: sp-brainstorming
+name: Brainstorming
+skill: brainstorming
+author: Jesse Vincent
+source: https://github.com/obra/superpowers
+license: MIT
+license_caveat: false
+tags:
+- engineering
+- ui
+where: web
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: Перед любой новой работой расспрашивает о задаче, предлагает подходы, пишет короткое описание и ждёт одобрения. Есть локальный визуальный помощник с вариантами.
+  en: Before any new work, asks about the task, offers approaches, writes a short design doc and waits for approval. Has an optional local visual companion.
+prompt:
+  ru: Хочу добавить в Тень второй источник света, давай сначала обсудим варианты.
+  en: I want a second light source in my shadow puzzle, let's discuss the options first.
+note:
+  ru: Из набора Superpowers. После одобрения передаёт план в Blueprint (поправлено). Логотип визуального помощника грузится с сайта автора и сообщает версию.
+  en: From Superpowers. After approval hands the plan to Blueprint (adjusted). The visual companion's logo loads from the author's site and reports the version.
+pairs: Blueprint, Council, Pipeline

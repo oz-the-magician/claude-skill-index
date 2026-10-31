@@ -1,0 +1,24 @@
+id: sp-verification
+name: Verification Before Completion
+skill: verification-before-completion
+author: Jesse Vincent
+source: https://github.com/obra/superpowers
+license: MIT
+license_caveat: false
+tags:
+- engineering
+where: web
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: 'Запрещает говорить «готово», пока не проверено на деле: запустить, посмотреть вывод, показать доказательство.'
+  en: 'Forbids saying done until it''s actually checked: run it, read the output, show the evidence.'
+prompt:
+  ru: Почини сохранение уровня и докажи, что работает, прежде чем сказать готово.
+  en: Fix level saving and prove it works before calling it done.
+note:
+  ru: Из набора Superpowers. Чистые инструкции, без скриптов.
+  en: From Superpowers. Instructions only, no scripts.
+pairs: Systematic Debugging, Pipeline
