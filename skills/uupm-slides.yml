@@ -1,0 +1,25 @@
+id: uupm-slides
+name: UUPM Slides
+skill: slides
+author: Next Level Builder
+source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+license: MIT
+license_caveat: false
+tags:
+- slides
+- web
+where: desktop
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: HTML-презентации со стратегией подачи, графиками Chart.js, токенами дизайна и формулами текстов для слайдов.
+  en: HTML presentations with a delivery strategy, Chart.js charts, design tokens and copywriting formulas for slides.
+prompt:
+  ru: Сделай HTML-презентацию из 8 слайдов для инвестора с графиком роста выручки.
+  en: Make an 8-slide HTML pitch for an investor with a revenue growth chart.
+note:
+  ru: Скриптов нет. Графики при открытии подгружают Chart.js с публичного CDN.
+  en: No scripts. Charts load Chart.js from a public CDN when opened.
+pairs: PPTX, Humanizer, UUPM Brand

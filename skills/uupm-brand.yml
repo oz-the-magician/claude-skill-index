@@ -1,0 +1,25 @@
+id: uupm-brand
+name: UUPM Brand
+skill: brand
+author: Next Level Builder
+source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+license: MIT
+license_caveat: false
+tags:
+- style
+- text
+where: desktop
+needs:
+- node
+load: 0
+checked: 31.10.2026
+summary:
+  ru: Голос бренда, айдентика, сообщения, проверка ассетов и цветов на соответствие гайдлайнам.
+  en: Brand voice, identity, messaging, checking assets and colours against the guidelines.
+prompt:
+  ru: Составь гайдлайн голоса бренда для Zero to Race и проверь палитру логотипа.
+  en: Write a brand voice guide for Zero to Race and check the logo palette.
+note:
+  ru: 'Шаг синхронизации с токенами убран: он требовал скилл design-system. Скрипты работают только с файлами проекта.'
+  en: 'The token sync step is removed: it needed the design-system skill. Scripts only touch project files.'
+pairs: Humanizer, UUPM Slides, UUPM UI Styling

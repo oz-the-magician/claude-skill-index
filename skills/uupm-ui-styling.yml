@@ -1,0 +1,25 @@
+id: uupm-ui-styling
+name: UUPM UI Styling
+skill: ui-styling
+author: Next Level Builder
+source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+license: MIT
+license_caveat: false
+tags:
+- ui
+- web
+where: desktop
+needs:
+- node
+load: 1
+checked: 31.10.2026
+summary:
+  ru: 'Интерфейсы на shadcn/ui и Tailwind: доступные компоненты, темы, тёмный режим, конфиг Tailwind по бренду.'
+  en: 'Interfaces with shadcn/ui and Tailwind: accessible components, themes, dark mode, a Tailwind config from the brand.'
+prompt:
+  ru: Собери на shadcn экран настроек с тёмной темой и формой профиля.
+  en: Build a settings screen in shadcn with a dark theme and a profile form.
+note:
+  ru: Скрипт ставит компоненты через npx shadcn, то есть качает их из npm. Архив 2,7 МБ, в основном шрифты OFL.
+  en: A script installs components via npx shadcn, which downloads from npm. The archive is 2.7 MB, mostly OFL fonts.
+pairs: UI UX Pro Max, Frontend Design, Emil Design Eng

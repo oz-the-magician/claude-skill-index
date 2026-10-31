@@ -1,0 +1,26 @@
+id: uupm
+name: UI UX Pro Max
+skill: ui-ux-pro-max
+author: Next Level Builder
+source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+license: MIT
+license_caveat: false
+tags:
+- ui
+- web
+- style
+where: desktop
+needs:
+- text
+load: 0
+checked: 31.10.2026
+summary:
+  ru: 'Справочник с поиском: 79 стилей, палитры, пары шрифтов, правила UX и доступности, советы по 22 стекам. Собирает дизайн-систему под продукт.'
+  en: 'Searchable reference: 79 styles, palettes, font pairings, UX and accessibility rules, advice for 22 stacks. Builds a design system for a product.'
+prompt:
+  ru: Подбери стиль, палитру и шрифты для лендинга студии керамики и проверь мою вёрстку по правилам UX.
+  en: Pick a style, palette and fonts for a ceramics studio landing page, then check my markup against the UX rules.
+note:
+  ru: Нужен Python 3, без интернета и ключей. Путь к скрипту поиска поправлен под загрузку через Settings.
+  en: Needs Python 3, no network or keys. The search script path is adjusted for upload via Settings.
+pairs: Frontend Design, Impeccable, Taste Skill, UUPM UI Styling
