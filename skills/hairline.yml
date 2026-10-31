@@ -1,0 +1,27 @@
+id: hairline
+name: Hairline
+skill: hairline-create, hairline-adopt
+author: Lucas Marques
+source: https://github.com/lucasmarkes/hairline
+license: MIT
+license_caveat: false
+tags:
+- ui
+- motion
+- style
+- web
+where: desktop
+needs:
+- node
+load: 1
+checked: 31.10.2026
+summary:
+  ru: 'Изометрические фигуры тонкой линией, которые отвечают на курсор. Рисует новую по идее или пересобирает твою SVG. На выходе один HTML-файл.'
+  en: 'Isometric hairline figures that answer the pointer. Draws a new one from an idea or rebuilds your SVG. Delivers a single HTML file.'
+prompt:
+  ru: '/hairline-create пустое состояние для поиска: лупа над стопкой карточек, курсор приподнимает карточку.'
+  en: '/hairline-create an empty state for search: a loupe over a stack of cards, the pointer lifts a card.'
+note:
+  ru: 'Ставить оба скилла, adopt работает через create. При первой проверке один раз скачивает playwright-core в кэш.'
+  en: 'Install both skills; adopt runs through create. The first check downloads playwright-core into a cache once.'
+pairs: Anatomy, Emil Design Eng, Frontend Design
